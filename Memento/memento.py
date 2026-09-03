@@ -23,6 +23,20 @@
 # Editor <- restores EditorState <- History returns it
 
 
+# MEMENTO
+# Represents a snapshot of the Editor at a particular point in time.
+#
+# Its job is simply to store the state.
+class EditorState:
+    def __init__(self, content):
+        # The saved state is private so outside classes
+        # cannot directly modify the snapshot.
+        self.__content = content
+
+    def get_content(self):
+        return self.__content
+
+
 # ORIGINATOR
 # This is the object whose state changes and needs to support undo.
 class Editor:
@@ -39,20 +53,6 @@ class Editor:
     # Restores the Editor to a previously saved state.
     def restore(self, state: EditorState):
         self.content = state.get_content()
-
-
-# MEMENTO
-# Represents a snapshot of the Editor at a particular point in time.
-#
-# Its job is simply to store the state.
-class EditorState:
-    def __init__(self, content):
-        # The saved state is private so outside classes
-        # cannot directly modify the snapshot.
-        self.__content = content
-
-    def get_content(self):
-        return self.__content
 
 
 # CARETAKER
@@ -137,3 +137,7 @@ if __name__ == "__main__":
 
     print(editor.content)
     # Hello
+
+
+# The reason that history exists is because of the single responsibility princible
+# Editor should not be responsible for having state and also containing history
